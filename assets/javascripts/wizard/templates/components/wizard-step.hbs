@@ -1,0 +1,58 @@
+<div class='wizard-step-contents'>
+  {{#if step.title}}
+    <h1 class='wizard-step-title'>{{step.title}}</h1>
+  {{/if}}
+
+  {{#if step.description}}
+    <div class='wizard-step-description'>{{cookedDescription}}</div>
+  {{/if}}
+
+  {{#if bannerImage}}
+    <div class="wizard-step-banner">
+      <img src={{bannerImage}}>
+    </div>
+  {{/if}}
+
+  {{#wizard-step-form step=step}}
+    {{#each step.fields as |field|}}
+      {{wizard-field field=field step=step wizard=wizard}}
+    {{/each}}
+  {{/wizard-step-form}}
+</div>
+
+<div class='wizard-step-footer'>
+
+  <div class='wizard-progress'>
+    <div class='white'></div>
+    <div class='black' style={{barStyle}}></div>
+    <div class='screen'></div>
+    <span>{{bound-i18n "wizard.step" current=step.displayIndex total=wizard.totalSteps}}</span>
+  </div>
+
+  <div class='wizard-buttons'>
+    {{#if saving}}
+      {{loading-spinner size='small'}}
+    {{else}}
+      {{#if showQuitButton}}
+        <a href {{action "quit"}} class='action-link quit' tabindex="11">{{i18n "wizard.quit"}}</a>
+      {{/if}}
+      {{#if showBackButton}}
+        <a href {{action "backStep"}} class='action-link back' tabindex="11">{{i18n "wizard.back"}}</a>
+      {{/if}}
+    {{/if}}
+
+    {{#if showNextButton}}
+      <button class='wizard-btn next primary' {{action "nextStep"}} disabled={{saving}} tabindex="10">
+        {{i18n "wizard.next"}}
+        {{d-icon "chevron-right"}}
+      </button>
+    {{/if}}
+
+    {{#if showDoneButton}}
+      <button class='wizard-btn done' {{action "done"}} disabled={{saving}} tabindex="10">
+        {{i18n "wizard.done"}}
+      </button>
+    {{/if}}
+  </div>
+
+</div>

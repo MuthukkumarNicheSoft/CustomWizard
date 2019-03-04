@@ -1,0 +1,15 @@
+<div class='row'>
+  <div class='content-list wizard-list'>
+    <ul>
+      {{#each model as |w|}}
+        <li>
+          {{#link-to "adminWizardSubmissions" w.id}}{{w.name}}{{/link-to}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+
+  <div class="content">
+    {{outlet}}
+  </div>
+</div>

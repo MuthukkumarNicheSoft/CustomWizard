@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <%= discourse_stylesheet_link_tag :wizard, theme_id: nil %>
+    <%= stylesheet_link_tag "wizard_custom", media: "all", "data-turbolinks-track" => "reload" %>
+    <%= stylesheet_link_tag "wizard_composer", media: "all", "data-turbolinks-track" => "reload" %>
+    <%= stylesheet_link_tag "wizard_variables", media: "all", "data-turbolinks-track" => "reload" %>
+    <%= stylesheet_link_tag "wizard_custom_mobile", media: "all", "data-turbolinks-track" => "reload" if mobile_view?%>
+    <%- if theme_ids %>
+      <%= discourse_stylesheet_link_tag (mobile_view? ? :mobile_theme : :desktop_theme) %>
+    <%- end %>
+
+    <%= preload_script "ember_jquery" %>
+    <%= preload_script "wizard-vendor" %>
+    <%= preload_script "wizard-application" %>
+    <%= preload_script "wizard-custom-lib" %>
+    <%= preload_script "wizard-custom" %>
+    <%= preload_script "wizard-plugin" %>
+    <%= preload_script "pretty-text-bundle" %>
+    <%= preload_script "locales/#{I18n.locale}" %>
+    <script src="<%= Discourse.base_uri %>/extra-locales/wizard"></script>
+    <%= csrf_meta_tags %>
+
+    <%- unless customization_disabled? %>
+      <%= raw theme_lookup("head_tag") %>
+    <%- end %>
+
+    <%= server_plugin_outlet "custom_wizard" %>
+
+    <meta name="discourse_theme_ids" content="<%= theme_ids&.join(",") %>">
+    <meta name="discourse-base-uri" content="<%= Discourse.base_uri %>">
+
+    <%= render partial: "layouts/head" %>
+    <title><%= wizard_page_title %></title>
+  </head>
+
+  <body class='custom-wizard'>
+    <div id='custom-wizard-main'></div>
+
+    <%- unless customization_disabled? %>
+      <%= raw theme_lookup("body_tag") %>
+    <%- end %>
+
+    <%= preload_script 'wizard-custom-start' %>
+    <%= preload_script 'wizard-raw-templates' %>
+
+    <div id="svg-sprites" style="display:none;">
+      <div class="fontawesome">
+        <%= raw SvgSprite.bundle %>
+      </div>
+    </div>
+  </body>
+</html>
